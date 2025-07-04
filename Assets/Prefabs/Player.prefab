@@ -6159,6 +6159,8 @@ MonoBehaviour:
   footstepSoundsGrass:
   - {fileID: 8300000, guid: 42abed227dc346a4895db91850a4c87a, type: 3}
   - {fileID: 8300000, guid: dacf099d55ce2c241972e5e264d91414, type: 3}
+  - {fileID: 8300000, guid: 28a8fc1e03071824287695da467ee260, type: 3}
+  - {fileID: 8300000, guid: 1cd6a8c3411729944b003241c273548b, type: 3}
   footstepSoundsStone:
   - {fileID: 8300000, guid: bfeedaf2280c1c24985fecc8d1d43b41, type: 3}
   - {fileID: 8300000, guid: 948dfb1ead5ead847924a8bf52fd2f02, type: 3}
@@ -6759,12 +6761,12 @@ MonoBehaviour:
   jumpForce: 12
   ledgeDistance: 1.5
   ledgeCollider: {fileID: 1894273239895547579}
-  ledgeLayer:
-    serializedVersion: 2
-    m_Bits: 65
+  ledgeJumpCooldownDuration: 1
+  ledgeJumpDuration: 0.5
   playerMovement: {fileID: 822055989977776824}
   playerCollider: {fileID: 7036113539517353607}
   playerOrientation: {fileID: 3048916713816069600}
+  isLedgeJumpOnCooldown: 0
 --- !u!54 &5981059779052805473
 Rigidbody:
   m_ObjectHideFlags: 0

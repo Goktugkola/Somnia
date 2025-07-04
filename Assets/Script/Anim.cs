@@ -25,6 +25,10 @@ public class Anim : MonoBehaviour
     [SerializeField] private GameObject AirBlastExplosionEffect;
     [SerializeField] private GameObject AirBlastEffect;
 
+    private int lastFootstepIndexWood = -1;
+    private int lastFootstepIndexGrass = -1;
+    private int lastFootstepIndexStone = -1;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -171,33 +175,60 @@ public class Anim : MonoBehaviour
         if (footstepAudioSource != null)
         {
             AudioClip clip = null;
-            if (playerMovement != null)
+            int newIndex = -1;
+
+            if (playerMovement != null && playerMovement.State == PlayerMovement.MovementState.WallRunning)
             {
-                if (playerMovement.State == PlayerMovement.MovementState.WallRunning)
+                // Special handling for WallRunning, always use stone sounds
+                if (footstepSoundsStone != null && footstepSoundsStone.Length > 0)
                 {
-                    clip = footstepSoundsStone[Random.Range(0, footstepSoundsStone.Length)];
+                    do
+                    {
+                        newIndex = Random.Range(0, footstepSoundsStone.Length);
+                    } while (newIndex == lastFootstepIndexStone && footstepSoundsStone.Length > 1);
+                    clip = footstepSoundsStone[newIndex];
+                    lastFootstepIndexStone = newIndex;
                 }
             }
-            switch (playerMovement.currentSurface)
+            else
             {
-                case PlayerMovement.SurfaceType.Wood:
-                    if (footstepSoundsWood != null && footstepSoundsWood.Length > 0)
-                    {
-                        clip = footstepSoundsWood[Random.Range(0, footstepSoundsWood.Length)];
-                    }
-                    break;
-                case PlayerMovement.SurfaceType.Grass:
-                    if (footstepSoundsGrass != null && footstepSoundsGrass.Length > 0)
-                    {
-                        clip = footstepSoundsGrass[Random.Range(0, footstepSoundsGrass.Length)];
-                    }
-                    break;
-                case PlayerMovement.SurfaceType.Stone:
-                    if (footstepSoundsStone != null && footstepSoundsStone.Length > 0)
-                    {
-                        clip = footstepSoundsStone[Random.Range(0, footstepSoundsStone.Length)];
-                    }
-                    break;
+                // Handle footstep sounds based on surface type
+                switch (playerMovement.currentSurface)
+                {
+                    case PlayerMovement.SurfaceType.Wood:
+                        if (footstepSoundsWood != null && footstepSoundsWood.Length > 0)
+                        {
+                            do
+                            {
+                                newIndex = Random.Range(0, footstepSoundsWood.Length);
+                            } while (newIndex == lastFootstepIndexWood && footstepSoundsWood.Length > 1);
+                            clip = footstepSoundsWood[newIndex];
+                            lastFootstepIndexWood = newIndex;
+                        }
+                        break;
+                    case PlayerMovement.SurfaceType.Grass:
+                        if (footstepSoundsGrass != null && footstepSoundsGrass.Length > 0)
+                        {
+                            do
+                            {
+                                newIndex = Random.Range(0, footstepSoundsGrass.Length);
+                            } while (newIndex == lastFootstepIndexGrass && footstepSoundsGrass.Length > 1);
+                            clip = footstepSoundsGrass[newIndex];
+                            lastFootstepIndexGrass = newIndex;
+                        }
+                        break;
+                    case PlayerMovement.SurfaceType.Stone:
+                        if (footstepSoundsStone != null && footstepSoundsStone.Length > 0)
+                        {
+                            do
+                            {
+                                newIndex = Random.Range(0, footstepSoundsStone.Length);
+                            } while (newIndex == lastFootstepIndexStone && footstepSoundsStone.Length > 1);
+                            clip = footstepSoundsStone[newIndex];
+                            lastFootstepIndexStone = newIndex;
+                        }
+                        break;
+                }
             }
 
             if (clip != null)
